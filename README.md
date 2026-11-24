@@ -29,5 +29,8 @@ Optional image OCR: `pip install -e ".[ocr,dev]"` and install the system Tessera
 - `GET /v1/documents/{id}/diff`
 - `GET /v1/documents/search?q=...`
 
+## Security and release status
+See [Security and Production Readiness Gates](docs/SECURITY_AND_RELEASE_GATES.md) for the mandatory external-pilot checklist. The current branch is development-only; authentication, RBAC, project isolation, upload quarantine/malware scanning, production persistence, verified backups and rollback are not implemented.
+
 ## Critical limitations
 This is a development foundation, not an engineering authority or certification system. Document search is lexical FTS5, not semantic/vector RAG. Scanned PDF OCR, drawing geometry/visual revision comparison, CAD/DWG/DXF parsing, and automated dimension extraction are not implemented. The API has no authentication/RBAC, malware scanning, tenant isolation, or production-grade storage. Do not expose it publicly or use it with confidential project data. No production deployment is included.
