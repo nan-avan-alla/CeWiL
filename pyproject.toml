@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cewil-engineering-os"
+version = "0.4.0"
+description = "Governed workflow foundation for civil engineering operations"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.110,<1.0",
+  "uvicorn[standard]>=0.27,<1.0",
+  "pydantic>=2.6,<3.0",
+  "python-multipart>=0.0.9",
+  "PyMuPDF>=1.24",
+  "python-docx>=1.1",
+  "openpyxl>=3.1"
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "httpx>=0.27"]
+ocr = ["Pillow>=10.0", "pytesseract>=0.3.10"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
