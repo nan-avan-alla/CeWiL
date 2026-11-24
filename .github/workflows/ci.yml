@@ -16,3 +16,5 @@ jobs:
           python-version: "3.11"
       - run: python -m pip install -e ".[dev]"
       - run: pytest
+      - name: Build development container
+        run: docker build --tag cewil-engineering-os:ci .
