@@ -89,8 +89,13 @@ def create_source(item: SourceCreate):
     now = _now()
     record = {"id": str(uuid.uuid4()), **item.model_dump(mode="json"), "created_at": now, "updated_at": now}
     record["url"] = str(record["url"])
+    columns = ("id", "title", "publisher", "source_type", "country", "region", "locality", "code_family", "edition", "amendment", "effective_date", "publication_date", "url", "access_status", "verification_status", "notes", "created_at", "updated_at")
+    placeholders = ", ".join("?" for _ in columns)
     with _connect() as db:
-        db.execute("INSERT INTO sources VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", tuple(record.values()))
+        db.execute(
+            f"INSERT INTO sources ({', '.join(columns)}) VALUES ({placeholders})",
+            tuple(record[column] for column in columns),
+        )
     return record
 
 def list_sources(country=None, region=None, locality=None, query=None):
