@@ -111,6 +111,11 @@ async def upload_document(project_id: str = Form(min_length=1, max_length=120),
 def documents(project_id: str = Query(min_length=1)):
     return {"items": list_documents(project_id)}
 
+@app.get("/v1/documents/search")
+def document_search(q: str = Query(min_length=2), project_id: str | None = None, limit: int = 20):
+    return {"query": q, "items": search_chunks(q, project_id, limit),
+            "notice": "SQLite full-text keyword search, not vector/semantic retrieval. Results are snippets, not verified engineering advice."}
+
 @app.get("/v1/documents/{document_id}")
 def document(document_id: str):
     item = get_document(document_id)
@@ -130,7 +135,3 @@ def document_diff(document_id: str, previous_id: str | None = None):
     except KeyError: raise HTTPException(status_code=404, detail="Document not found")
     except ValueError as exc: raise HTTPException(status_code=422, detail=str(exc))
 
-@app.get("/v1/documents/search")
-def document_search(q: str = Query(min_length=2), project_id: str | None = None, limit: int = 20):
-    return {"query": q, "items": search_chunks(q, project_id, limit),
-            "notice": "SQLite full-text keyword search, not vector/semantic retrieval. Results are snippets, not verified engineering advice."}
